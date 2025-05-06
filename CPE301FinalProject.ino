@@ -98,7 +98,7 @@ void loop(){
         break;
       }
       break;
-    case IDLE:
+    case IDL E:
       //Green LED, others off
       PORTE |= (1 << PE3);
       PORTH &= ~(1 << PH5);
@@ -126,6 +126,14 @@ void loop(){
       }
       if(temperature > TEMP_THRESHOLD){
         state = RUNNING;
+        stateChange();
+        getDate();
+        break;
+      }
+      //Go to ERROR if water = low
+      waterLevel = adc_read(0);
+      if(waterLevel < LOW_WATER_LEVEL_THRESHOLD){
+        state = ERROR;
         stateChange();
         getDate();
         break;
